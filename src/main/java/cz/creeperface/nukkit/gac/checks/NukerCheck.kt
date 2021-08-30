@@ -5,7 +5,6 @@ import cn.nukkit.block.Block
 import cn.nukkit.block.BlockID
 import cn.nukkit.level.Location
 import cn.nukkit.math.AxisAlignedBB
-import cn.nukkit.math.SimpleAxisAlignedBB
 import cn.nukkit.math.Vector3
 import cn.nukkit.utils.BlockIterator
 import cz.creeperface.nukkit.gac.utils.GACTimings
@@ -23,7 +22,7 @@ object NukerCheck {
         var bb: AxisAlignedBB? = b.boundingBox?.mutable()
 
         if (bb == null) {
-            bb = SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)
+            bb = AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)
         }
 
         bb.expand(-0.01, -0.01, -0.01)

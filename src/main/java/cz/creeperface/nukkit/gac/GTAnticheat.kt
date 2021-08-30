@@ -32,9 +32,9 @@ class GTAnticheat : PluginBase(), Listener {
 
     private val enabledLevels = IntOpenHashSet()
 
-    init {
+    /*init {
         Server.getInstance().network.injectGACInterface()
-    }
+    }*/
 
     override fun onLoad() {
         instance = this
@@ -224,10 +224,10 @@ class GTAnticheat : PluginBase(), Listener {
         )
 
         if (conf.enabled(CheckType.FLY) && server.allowFlight) {
-            val fly = Server::class.java.getDeclaredField("getAllowFlight")
+            val fly = Server::class.java.getDeclaredField("flyChecks")
             fly.isAccessible = true
             fly.set(this.server, false)
-            logger.warning("Disabling server flight option because of GAC fly check enabled")
+            logger.warning("Disabling server flight option because of GAC fly check is enabled")
         }
     }
 
@@ -240,7 +240,7 @@ class GTAnticheat : PluginBase(), Listener {
         logger.info("${TextFormat.YELLOW}╚██████╔╝██║  ██║╚██████╗")
         logger.info("${TextFormat.YELLOW} ╚═════╝ ╚═╝  ╚═╝ ╚═════╝")
         logger.info(" ")
-        logger.info("${TextFormat.YELLOW}       GAC enabled       ")
+        logger.info("${TextFormat.YELLOW}GAC for Nukkit PM1E enabled")
     }
 
     companion object {

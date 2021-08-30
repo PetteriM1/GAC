@@ -1,6 +1,6 @@
 name: "GAC"
-version: "1.3.9"
-api: ["1.0.10"]
+version: "${pom.version}"
+api: ["9.9.9"]
 main: cz.creeperface.nukkit.gac.GTAnticheat
 author: "CreeperFace"
 description: "Basic AntiCheat plugin for Nukkit"
