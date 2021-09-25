@@ -89,13 +89,14 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 }
 
                 val newPos = Location(packet.x.toDouble(), (packet.y - this.eyeHeight).toDouble(), packet.z.toDouble(), packet.headYaw.toDouble(), packet.pitch.toDouble())
+                val dis = newPos.distanceSquared(this)
                 var revert = false
 
-                if (newPos.distanceSquared(this) < 0.0001 && (packet.yaw % 360).toDouble() == this.yaw && (packet.pitch % 360).toDouble() == this.pitch) {
+                if (dis < 0.0001 && (packet.yaw % 360).toDouble() == this.yaw && (packet.pitch % 360).toDouble() == this.pitch) {
                     return
                 }
 
-                if (newPos.distanceSquared(this) > GTAnticheat.conf.maxDistance) { //10 blocks
+                if (dis > GTAnticheat.conf.maxDistance) {
                     this.sendPosition(forceMovement
                             ?: this, packet.yaw.toDouble(), packet.pitch.toDouble(), MovePlayerPacket.MODE_RESET)
                     return
@@ -222,7 +223,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                         this.speed = from.subtract(to)
                     }
 
-                    if (!revert && (this.isFoodEnabled || this.server.difficulty == 0)) {
+                    if (!revert && this.isFoodEnabled && this.server.difficulty > 0) {
                         hungerUpdate(distance)
                     }
 
@@ -261,24 +262,20 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
         with(this.p) {
             var distance = dist
 
-            if (this.isSurvival || this.isAdventure) {
-
-                //UpdateFoodExpLevel
-                if (distance >= 0.05) {
-                    var jump = 0.0
-                    val swimming = if (this.isInsideOfWater) 0.015 * distance else 0.0
-                    if (swimming != 0.0) distance = 0.0
-                    if (this.isSprinting) {  //Running
-                        if (inAirTicks == 3 && swimming == 0.0) {
-                            jump = 0.7
-                        }
-                        foodData.updateFoodExpLevel(0.06 * distance + jump + swimming)
-                    } else {
-                        if (inAirTicks == 3 && swimming == 0.0) {
-                            jump = 0.2
-                        }
-                        foodData.updateFoodExpLevel(0.01 * distance + jump + swimming)
+            if (distance >= 0.05) {
+                var jump = 0.0
+                val swimming = if (this.isInsideOfWater) 0.015 * distance else 0.0
+                if (swimming != 0.0) distance = 0.0
+                if (this.isSprinting) {
+                    if (inAirTicks == 3 && swimming == 0.0) {
+                        jump = 0.7
                     }
+                    foodData.updateFoodExpLevel(0.06 * distance + jump + swimming)
+                } else {
+                    if (inAirTicks == 3 && swimming == 0.0) {
+                        jump = 0.2
+                    }
+                    foodData.updateFoodExpLevel(0.01 * distance + jump + swimming)
                 }
             }
         }
@@ -329,7 +326,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 }
 
                 bb.forEach { x, y, z ->
-                    blocksUnder.add(this.level.getBlock(this.temporalVector.setComponents(x.toDouble(), y.toDouble(), z.toDouble())))
+                    blocksUnder.add(this.level.getBlock(x, y, z, false))
                 }
             }
 
@@ -339,7 +336,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
 
     override fun setMotion(motion: Vector3): Boolean {
         with(this.p) {
-            if (!this.justCreated) {
+            if (!this.justCreated && server.callEntityMotionEv) {
                 val ev = EntityMotionEvent(this, motion)
                 this.server.pluginManager.callEvent(ev)
                 if (ev.isCancelled) {
@@ -355,7 +352,8 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 this.updateMovement()
             }
 
-            if (this.chunk != null) {
+            if (this.chunk != null && this.spawned) {
+                this.addMotion(this.motionX, this.motionY, this.motionZ)
                 val pk = SetEntityMotionPacket()
                 pk.eid = this.id
                 pk.motionX = motion.x.toFloat()
@@ -391,7 +389,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 packetEntry.lastCheckTime = time
                 packetEntry.lastCheckTick = tick
                 if (packetEntry.revertCount > 6) {
-                    GTAnticheat.instance.kickQueue[this.id] = "Illegal speed"
+                    GTAnticheat.instance.kickQueue[this.id] = "illegal speed"
                     return false
                 }
             }

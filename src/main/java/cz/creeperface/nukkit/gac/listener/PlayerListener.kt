@@ -556,7 +556,7 @@ class PlayerListener(private val plugin: GTAnticheat) : Listener {
         val player = data.player
         val cheatData = data.antiCheatData
 
-        val item = player.inventory.itemInHand
+        val item = player.inventory.itemInHandFast
         var breakTime = block.getBreakTime(item, player)
 
         if (player.isCreative && breakTime > 0.15) {

@@ -72,7 +72,10 @@ class FakePlayer : Location() {
         }
 
         this.setComponents(pos.x, pos.y, pos.z)
-        changeName()
+
+        if (player.server.tick % 10 == 0) {
+            changeName()
+        }
 
         spawnCount++
 
@@ -109,7 +112,7 @@ class FakePlayer : Location() {
         pk.speedZ = 0f
         pk.yaw = 0f
         pk.pitch = 0f
-        pk.metadata = metadata
+        pk.metadata = metadata.clone()
         pk.item = Item.get(Item.AIR)
 
         player.dataPacket(pk)
@@ -132,7 +135,7 @@ class FakePlayer : Location() {
 
         val pk = SetEntityDataPacket()
         pk.eid = ID
-        pk.metadata = metadata
+        pk.metadata = metadata.clone()
         this.player.dataPacket(pk)
 
         return name
