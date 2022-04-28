@@ -5,7 +5,6 @@ import cn.nukkit.event.player.PlayerMoveEvent
 import cn.nukkit.level.Level
 import cn.nukkit.math.AxisAlignedBB
 import cn.nukkit.math.BlockFace
-import cn.nukkit.math.Vector3
 import cz.creeperface.nukkit.gac.ACData
 import cz.creeperface.nukkit.gac.utils.GACTimings
 import cz.creeperface.nukkit.gac.utils.debug
@@ -68,7 +67,7 @@ object BlockCollisionCheck {
             //System.out.println("floorY: "+bb2.minY+"   "+p.y+"     "+newBB.minY+"          "+p.getBoundingBox().minY);
 
             for (block in collidingBlocks) {
-                if (checkNoClip && /*!block.isTransparent() && */ !block.canPassThrough()) {
+                if (checkNoClip && /*!block.isTransparent() && */ !block.canPassThrough() && block.id != BlockID.SCAFFOLDING) {
                     if (!revert) {
                         val bb = block.boundingBox
                         if (bb != null && bb.maxY - newBB.minY >= 0.6 && block.collidesWith(bb2)/* || CheatUtils.collidesWithNotFullBlock(p, bb2, bb)*//*!complexCheck || CheatUtils.insidePyramid(p, bb2, block))*//*(complexCheck && bb.maxY - p.y >= 0.45 && bb.minY <= p.y) ? CheatUtils.insidePyramid(p, bb2, block) : block.collidesWithBB(bb2)*/) {
@@ -135,10 +134,9 @@ object BlockCollisionCheck {
 
     private fun getBlocksAround(level: Level, bb: AxisAlignedBB): List<Block> {
         val blocksAround = ArrayList<Block>()
-        val vector3 = Vector3()
 
         bb.forEach { x, y, z ->
-            val block = level.getBlock(vector3.setComponents(x.toDouble(), y.toDouble(), z.toDouble()))
+            val block = level.getBlock(x, y, z)
             blocksAround.add(block)
         }
 

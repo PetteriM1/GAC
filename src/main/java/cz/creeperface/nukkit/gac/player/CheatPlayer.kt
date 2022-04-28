@@ -92,7 +92,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 val dis = newPos.distanceSquared(this)
                 var revert = false
 
-                if (dis < 0.0001 && (packet.yaw % 360).toDouble() == this.yaw && (packet.pitch % 360).toDouble() == this.pitch) {
+                if (dis == 0.0 && (packet.yaw % 360).toDouble() == this.yaw && (packet.pitch % 360).toDouble() == this.pitch) {
                     return
                 }
 
@@ -249,10 +249,6 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                             nextChunkOrderRun = 20
                         }
                     }
-
-                    if (this.riding != null && this.riding is EntityBoat) {
-                        this.riding.setPositionAndRotation(this.temporalVector.setComponents(packet.x.toDouble(), (packet.y - 1.0f).toDouble(), packet.z.toDouble()), ((packet.headYaw + 90.0f) % 360.0f).toDouble(), 0.0)
-                    }
                 }
             }
         }
@@ -326,7 +322,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                 }
 
                 bb.forEach { x, y, z ->
-                    blocksUnder.add(this.level.getBlock(x, y, z, false))
+                    blocksUnder.add(this.level.getBlock(x, y, z))
                 }
             }
 

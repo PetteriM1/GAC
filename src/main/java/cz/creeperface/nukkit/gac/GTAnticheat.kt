@@ -223,10 +223,8 @@ class GTAnticheat : PluginBase(), Listener {
                 maxDistance
         )
 
-        if (conf.enabled(CheckType.FLY) && server.allowFlight) {
-            val fly = Server::class.java.getDeclaredField("flyChecks")
-            fly.isAccessible = true
-            fly.set(this.server, false)
+        if (conf.enabled(CheckType.FLY) && server.flyChecks) {
+            server.flyChecks = false
             logger.warning("Disabling server flight option because of GAC fly check is enabled")
         }
     }

@@ -5,13 +5,14 @@ import cn.nukkit.math.AxisAlignedBB
 import cn.nukkit.math.Vector3
 import cn.nukkit.network.SourceInterface
 import cn.nukkit.network.protocol.DataPacket
+import java.net.InetSocketAddress
 import org.itxtech.synapseapi.SynapseEntry
 import org.itxtech.synapseapi.SynapsePlayer
 
 /**
  * Created by CreeperFace on 25.7.2017.
  */
-class SynapseCheatPlayer(interfaz: SourceInterface, entry: SynapseEntry, clientID: Long?, ip: String, port: Int) : SynapsePlayer(interfaz, entry, clientID, ip, port), ICheatPlayer {
+class SynapseCheatPlayer(interfaz: SourceInterface, entry: SynapseEntry, clientID: Long?, address: InetSocketAddress) : SynapsePlayer(interfaz, entry, clientID, address), ICheatPlayer {
 
     val cheatPlayer = CheatPlayer(this, this)
 
