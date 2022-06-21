@@ -258,20 +258,20 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
         with(this.p) {
             var distance = dist
 
-            if (distance >= 0.05) {
+            if (distance >= 0.05 && this.isFoodEnabled && this.server.difficulty > 0) {
                 var jump = 0.0
-                val swimming = if (this.isInsideOfWater) 0.015 * distance else 0.0
+                val swimming = if (this.isInsideOfWater) 0.01 * distance else 0.0
                 if (swimming != 0.0) distance = 0.0
                 if (this.isSprinting) {
                     if (inAirTicks == 3 && swimming == 0.0) {
-                        jump = 0.7
-                    }
-                    foodData.updateFoodExpLevel(0.06 * distance + jump + swimming)
-                } else {
-                    if (inAirTicks == 3 && swimming == 0.0) {
                         jump = 0.2
                     }
-                    foodData.updateFoodExpLevel(0.01 * distance + jump + swimming)
+                    foodData.updateFoodExpLevel(0.1 * distance + jump + swimming)
+                } else {
+                    if (inAirTicks == 3 && swimming == 0.0) {
+                        jump = 0.05
+                    }
+                    foodData.updateFoodExpLevel(jump + swimming)
                 }
             }
         }
