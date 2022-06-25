@@ -88,7 +88,7 @@ class CheatPlayer(val p: Player, cheatPlayer: ICheatPlayer) : ICheatPlayer by (c
                     return
                 }
 
-                val newPos = Location(packet.x.toDouble(), (packet.y - this.eyeHeight).toDouble(), packet.z.toDouble(), packet.headYaw.toDouble(), packet.pitch.toDouble())
+                val newPos = Location(packet.x.toDouble(), (packet.y - 1.62f).toDouble(), packet.z.toDouble(), packet.headYaw.toDouble(), packet.pitch.toDouble())
                 val dis = newPos.distanceSquared(this)
                 var revert = false
 
