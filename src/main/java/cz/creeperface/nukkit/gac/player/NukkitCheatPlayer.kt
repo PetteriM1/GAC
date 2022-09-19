@@ -86,4 +86,8 @@ class NukkitCheatPlayer(interfaz: SourceInterface, clientID: Long?, address: Ine
     override fun getBlocksUnder(boundingBox: AxisAlignedBB?) = this.cheatPlayer.getBlocksUnder(boundingBox)
 
     override fun jump() = this.cheatPlayer.jump()
+
+    override fun isMovementServerAuthoritative(): Boolean {
+        return false
+    }
 }

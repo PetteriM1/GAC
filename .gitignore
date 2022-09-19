@@ -182,3 +182,5 @@ $RECYCLE.BIN/
 /NukkitAC.iml
 /src/main/resources/rebel.xml
 .idea/
+*.jar
+
