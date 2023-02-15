@@ -4,6 +4,7 @@ import cn.nukkit.block.BlockStairs
 import cn.nukkit.math.AxisAlignedBB
 import cn.nukkit.math.BlockFace
 import cn.nukkit.math.NukkitMath
+import cn.nukkit.math.SimpleAxisAlignedBB
 
 /**
  * @author CreeperFace
@@ -119,7 +120,7 @@ fun BlockStairs.getCollEighthBlock(): AxisAlignedBB {
     }
 }
 
-fun AxisAlignedBB.mutable() = AxisAlignedBB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ)
+fun AxisAlignedBB.mutable() = SimpleAxisAlignedBB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ)
 
 enum class StairsShape {
     STRAIGHT,
@@ -134,109 +135,109 @@ private object Stairs {
      * B: .. T: xx
      * B: .. T: xx
      */
-    val AABB_SLAB_TOP = AxisAlignedBB(0.0, 0.5, 0.0, 1.0, 1.0, 1.0)
+    val AABB_SLAB_TOP = SimpleAxisAlignedBB(0.0, 0.5, 0.0, 1.0, 1.0, 1.0)
 
     /**
      * B: .. T: x.
      * B: .. T: x.
      */
-    val AABB_QTR_TOP_WEST = AxisAlignedBB(0.0, 0.5, 0.0, 0.5, 1.0, 1.0)
+    val AABB_QTR_TOP_WEST = SimpleAxisAlignedBB(0.0, 0.5, 0.0, 0.5, 1.0, 1.0)
 
     /**
      * B: .. T: .x
      * B: .. T: .x
      */
-    val AABB_QTR_TOP_EAST = AxisAlignedBB(0.5, 0.5, 0.0, 1.0, 1.0, 1.0)
+    val AABB_QTR_TOP_EAST = SimpleAxisAlignedBB(0.5, 0.5, 0.0, 1.0, 1.0, 1.0)
 
     /**
      * B: .. T: xx
      * B: .. T: ..
      */
-    val AABB_QTR_TOP_NORTH = AxisAlignedBB(0.0, 0.5, 0.0, 1.0, 1.0, 0.5)
+    val AABB_QTR_TOP_NORTH = SimpleAxisAlignedBB(0.0, 0.5, 0.0, 1.0, 1.0, 0.5)
 
     /**
      * B: .. T: ..
      * B: .. T: xx
      */
-    val AABB_QTR_TOP_SOUTH = AxisAlignedBB(0.0, 0.5, 0.5, 1.0, 1.0, 1.0)
+    val AABB_QTR_TOP_SOUTH = SimpleAxisAlignedBB(0.0, 0.5, 0.5, 1.0, 1.0, 1.0)
 
     /**
      * B: .. T: x.
      * B: .. T: ..
      */
-    val AABB_OCT_TOP_NW = AxisAlignedBB(0.0, 0.5, 0.0, 0.5, 1.0, 0.5)
+    val AABB_OCT_TOP_NW = SimpleAxisAlignedBB(0.0, 0.5, 0.0, 0.5, 1.0, 0.5)
 
     /**
      * B: .. T: .x
      * B: .. T: ..
      */
-    val AABB_OCT_TOP_NE = AxisAlignedBB(0.5, 0.5, 0.0, 1.0, 1.0, 0.5)
+    val AABB_OCT_TOP_NE = SimpleAxisAlignedBB(0.5, 0.5, 0.0, 1.0, 1.0, 0.5)
 
     /**
      * B: .. T: ..
      * B: .. T: x.
      */
-    val AABB_OCT_TOP_SW = AxisAlignedBB(0.0, 0.5, 0.5, 0.5, 1.0, 1.0)
+    val AABB_OCT_TOP_SW = SimpleAxisAlignedBB(0.0, 0.5, 0.5, 0.5, 1.0, 1.0)
 
     /**
      * B: .. T: ..
      * B: .. T: .x
      */
-    val AABB_OCT_TOP_SE = AxisAlignedBB(0.5, 0.5, 0.5, 1.0, 1.0, 1.0)
+    val AABB_OCT_TOP_SE = SimpleAxisAlignedBB(0.5, 0.5, 0.5, 1.0, 1.0, 1.0)
 
     /**
      * B: xx T: ..
      * B: xx T: ..
      */
-    val AABB_SLAB_BOTTOM = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0)
+    val AABB_SLAB_BOTTOM = SimpleAxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0)
 
     /**
      * B: x. T: ..
      * B: x. T: ..
      */
-    val AABB_QTR_BOT_WEST = AxisAlignedBB(0.0, 0.0, 0.0, 0.5, 0.5, 1.0)
+    val AABB_QTR_BOT_WEST = SimpleAxisAlignedBB(0.0, 0.0, 0.0, 0.5, 0.5, 1.0)
 
     /**
      * B: .x T: ..
      * B: .x T: ..
      */
-    val AABB_QTR_BOT_EAST = AxisAlignedBB(0.5, 0.0, 0.0, 1.0, 0.5, 1.0)
+    val AABB_QTR_BOT_EAST = SimpleAxisAlignedBB(0.5, 0.0, 0.0, 1.0, 0.5, 1.0)
 
     /**
      * B: xx T: ..
      * B: .. T: ..
      */
-    val AABB_QTR_BOT_NORTH = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 0.5)
+    val AABB_QTR_BOT_NORTH = SimpleAxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 0.5)
 
     /**
      * B: .. T: ..
      * B: xx T: ..
      */
-    val AABB_QTR_BOT_SOUTH = AxisAlignedBB(0.0, 0.0, 0.5, 1.0, 0.5, 1.0)
+    val AABB_QTR_BOT_SOUTH = SimpleAxisAlignedBB(0.0, 0.0, 0.5, 1.0, 0.5, 1.0)
 
     /**
      * B: x. T: ..
      * B: .. T: ..
      */
-    val AABB_OCT_BOT_NW = AxisAlignedBB(0.0, 0.0, 0.0, 0.5, 0.5, 0.5)
+    val AABB_OCT_BOT_NW = SimpleAxisAlignedBB(0.0, 0.0, 0.0, 0.5, 0.5, 0.5)
 
     /**
      * B: .x T: ..
      * B: .. T: ..
      */
-    val AABB_OCT_BOT_NE = AxisAlignedBB(0.5, 0.0, 0.0, 1.0, 0.5, 0.5)
+    val AABB_OCT_BOT_NE = SimpleAxisAlignedBB(0.5, 0.0, 0.0, 1.0, 0.5, 0.5)
 
     /**
      * B: .. T: ..
      * B: x. T: ..
      */
-    val AABB_OCT_BOT_SW = AxisAlignedBB(0.0, 0.0, 0.5, 0.5, 0.5, 1.0)
+    val AABB_OCT_BOT_SW = SimpleAxisAlignedBB(0.0, 0.0, 0.5, 0.5, 0.5, 1.0)
 
     /**
      * B: .. T: ..
      * B: .x T: ..
      */
-    val AABB_OCT_BOT_SE = AxisAlignedBB(0.5, 0.0, 0.5, 1.0, 0.5, 1.0)
+    val AABB_OCT_BOT_SE = SimpleAxisAlignedBB(0.5, 0.0, 0.5, 1.0, 0.5, 1.0)
 }
 
 inline fun AxisAlignedBB.forEachBlocks(action: (Int, Int, Int) -> Unit) {

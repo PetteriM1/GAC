@@ -5,6 +5,7 @@ import cn.nukkit.event.player.PlayerMoveEvent
 import cn.nukkit.level.Level
 import cn.nukkit.math.AxisAlignedBB
 import cn.nukkit.math.BlockFace
+import cn.nukkit.math.SimpleAxisAlignedBB
 import cz.creeperface.nukkit.gac.ACData
 import cz.creeperface.nukkit.gac.utils.GACTimings
 import cz.creeperface.nukkit.gac.utils.debug
@@ -166,7 +167,7 @@ object BlockCollisionCheck {
             val west = b.canConnect(b.west())
             val east = b.canConnect(b.east())
 
-            val northBB = AxisAlignedBB(b.x + 0.375, b.y, b.z + 0.375, b.x + 0.625, b.y + 1.5, b.z + 0.625)
+            val northBB = SimpleAxisAlignedBB(b.x + 0.375, b.y, b.z + 0.375, b.x + 0.625, b.y + 1.5, b.z + 0.625)
 
             if (west || east) {
                 val eastBB = northBB.clone()
@@ -202,7 +203,7 @@ object BlockCollisionCheck {
             val west = b.canConnect(b.west())
             val east = b.canConnect(b.east())
 
-            val northBB = AxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 1, b.z + 0.5625)
+            val northBB = SimpleAxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 1, b.z + 0.5625)
 
             if (west || east) {
                 val eastBB = northBB.clone()
@@ -237,14 +238,14 @@ object BlockCollisionCheck {
 
             val blockbb = when {
                 b.isOpen -> when (b.blockFace) {
-                    BlockFace.NORTH -> AxisAlignedBB(0.0, 0.0, 0.8125, 1.0, 1.0, 1.0)
-                    BlockFace.EAST -> AxisAlignedBB(0.0, 0.0, 0.0, 0.1875, 1.0, 1.0)
-                    BlockFace.WEST -> AxisAlignedBB(0.8125, 0.0, 0.0, 1.0, 1.0, 1.0)
-                    BlockFace.SOUTH -> AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 0.1875)
-                    else -> AxisAlignedBB(0.0, 0.0, 0.8125, 1.0, 1.0, 1.0)
+                    BlockFace.NORTH -> SimpleAxisAlignedBB(0.0, 0.0, 0.8125, 1.0, 1.0, 1.0)
+                    BlockFace.EAST -> SimpleAxisAlignedBB(0.0, 0.0, 0.0, 0.1875, 1.0, 1.0)
+                    BlockFace.WEST -> SimpleAxisAlignedBB(0.8125, 0.0, 0.0, 1.0, 1.0, 1.0)
+                    BlockFace.SOUTH -> SimpleAxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 0.1875)
+                    else -> SimpleAxisAlignedBB(0.0, 0.0, 0.8125, 1.0, 1.0, 1.0)
                 }
-                b.isTop -> AxisAlignedBB(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0)
-                else -> AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0)
+                b.isTop -> SimpleAxisAlignedBB(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0)
+                else -> SimpleAxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0)
             }
 
             blockbb.offset(b.x, b.y, b.z)
@@ -289,24 +290,24 @@ object BlockCollisionCheck {
         map[Block.STONE_BRICK_STAIRS] = stairs
 
         map[Block.BREWING_STAND_BLOCK] = calc@{ bb, b ->
-            //            val bb0 = AxisAlignedBB(b.x, b.y, b.z, b.x + 1.0, b.y + 0.125, b.z + 1.0);
-//            val bb1 = AxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 0.875, b.z + 0.5625)
+            //            val bb0 = SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1.0, b.y + 0.125, b.z + 1.0);
+//            val bb1 = SimpleAxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 0.875, b.z + 0.5625)
 
-            return@calc bb.intersectsWith(AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.125, b.z + 1)) || bb.intersectsWith(AxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 0.875, b.z + 0.5625))
+            return@calc bb.intersectsWith(SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.125, b.z + 1)) || bb.intersectsWith(SimpleAxisAlignedBB(b.x + 0.4375, b.y, b.z + 0.4375, b.x + 0.5625, b.y + 0.875, b.z + 0.5625))
         }
 
         map[Block.CAULDRON_BLOCK] = calc@{ bb, b ->
-            //            val AABB_LEGS = AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.3125, b.z + 1)
-//            val AABB_WALL_NORTH = AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 0.125)
-//            val AABB_WALL_SOUTH = AxisAlignedBB(b.x, b.y, b.z + 0.875, b.x + 1, b.y + 1, b.z + 1)
-//            val AABB_WALL_EAST = AxisAlignedBB(b.x + 0.875, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)
-//            val AABB_WALL_WEST = AxisAlignedBB(b.x, b.y, b.z, b.x + 0.125, b.y + 1, b.z + 1)
+            //            val AABB_LEGS = SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.3125, b.z + 1)
+//            val AABB_WALL_NORTH = SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 0.125)
+//            val AABB_WALL_SOUTH = SimpleAxisAlignedBB(b.x, b.y, b.z + 0.875, b.x + 1, b.y + 1, b.z + 1)
+//            val AABB_WALL_EAST = SimpleAxisAlignedBB(b.x + 0.875, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)
+//            val AABB_WALL_WEST = SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 0.125, b.y + 1, b.z + 1)
 
-            return@calc bb.intersectsWith(AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.3125, b.z + 1)) ||
-                    bb.intersectsWith(AxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 0.125)) ||
-                    bb.intersectsWith(AxisAlignedBB(b.x, b.y, b.z + 0.875, b.x + 1, b.y + 1, b.z + 1)) ||
-                    bb.intersectsWith(AxisAlignedBB(b.x + 0.875, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)) ||
-                    bb.intersectsWith(AxisAlignedBB(b.x, b.y, b.z, b.x + 0.125, b.y + 1, b.z + 1))
+            return@calc bb.intersectsWith(SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 0.3125, b.z + 1)) ||
+                    bb.intersectsWith(SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 1, b.y + 1, b.z + 0.125)) ||
+                    bb.intersectsWith(SimpleAxisAlignedBB(b.x, b.y, b.z + 0.875, b.x + 1, b.y + 1, b.z + 1)) ||
+                    bb.intersectsWith(SimpleAxisAlignedBB(b.x + 0.875, b.y, b.z, b.x + 1, b.y + 1, b.z + 1)) ||
+                    bb.intersectsWith(SimpleAxisAlignedBB(b.x, b.y, b.z, b.x + 0.125, b.y + 1, b.z + 1))
         }
 
         this.collisionCalculators = map
